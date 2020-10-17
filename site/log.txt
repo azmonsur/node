@@ -3,3 +3,12 @@
 1. grunt-cli
 2. express
 3. express3-handlebars
+
+=====SOURCE CONTROL======
+1. sign in to github account
+2. use terminal to perform these tasks
+    a. enter <init git> to inialize github
+    b. create a .gitignore file and add files where you don want any change to effect
+    c. enter <git add -A>
+    d. commit changes by typing <git commit -m "Initial commit."
+    

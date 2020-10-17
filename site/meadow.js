@@ -1,9 +1,12 @@
 //Express server
-
 'use strict'
 
+//create app
 var express = require('express');
 var app = express();
+
+//import self defined module(s)
+var fortune = require('./lib/fortune.js')
 
 //set up handlebars view engine - handles HTML
 var handlebars = require('express3-handlebars').create({
@@ -13,17 +16,9 @@ app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('port', process.env.PORT || 3000);
 
+
 //set up static files directory
 app.use(express.static(__dirname + '/public'));
-
-//dynamism, server a page dynamically
-var fortunes = [
-    'Conquer your fears or they will conquer you.',
-    'Rivers need Springs.',
-    'Do not fear what you do not know.',
-    'You will have a pleasant surprise.',
-    'Whenever possible, keep it simple.'
-];
 
 //homepage route
 app.get('/', function (req, res) {
@@ -32,8 +27,7 @@ app.get('/', function (req, res) {
 
 //about page route
 app.get('/about', function (req, res) {
-    var randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-    res.render('about', {fortune: randomFortune});
+    res.render('about', {fortune: fortune.getFortune()});
 });
 
 

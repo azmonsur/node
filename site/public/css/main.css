@@ -1,0 +1,40 @@
+ul {
+    list-style: none;
+}
+
+li {
+    display: inline;
+    margin: 0 5px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: red;
+}
+
+footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 10px 5px;
+    text-align: center;
+}
+
+.logo {
+    margin-bottom: 60px;
+}
+
+.logo img {
+    width: 30px;
+    height: 30px;
+}
+
+.logo span {
+    font-size: 3em;
+    font-family: cursive;
+    color: red;
+}

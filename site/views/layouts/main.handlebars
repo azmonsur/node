@@ -4,31 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Meadowlark Travel</title>
+    {{{_sections.head}}}
+
     <link rel="stylesheet" href="/css/main.css">
     {{#if showTests}}
         <link rel="stylesheet" href="/vendor/mocha.css">
     {{/if}}
+
     <script src="/js/lib-js/jquery-3.5.1.min.js"></script>
 </head>
 
 <body>
-    <header>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="/tours/hood-river">River Hood</a></li>
-        </ul>
-        <div class="logo">
-            <img src="/img/logo.jpg" alt="logo">
-            <span>Meadowlark&trade;</span>
-        </div>
-      
-    </header>
+    {{> header}}
+    
     {{{body}}}
-    <footer>All rights reserved&copy;</footer>
+    <script src="/js/lib-js/jquery-3.5.1.min.js"></script>
+    {{{_sections.jquery}}}
 
+    {{> footer}}
 
 
 

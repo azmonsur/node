@@ -1,7 +1,7 @@
 <h2>Sign up for our newsletter to receive news and specials!</h2>
 
 <div class="formContainer">
-    <form class="form-horizontal newsletterForm" role="form" action="/process?form=newsletter" method="POST">
+    <form class="form-horizontal newsletterForm" role="form" action="/newsletter?form=newsletter" method="POST">
         <input type="hidden" name="_csrf" value="{{csrf}}">
         <div class="form-group">
             <label for="fieldName" class="col-sm-2 control-label">Name</label>
@@ -24,7 +24,7 @@
 </div>
 
 {{#section 'jquery'}}
-<script>
+<script>/*
     $(document).ready(function () {
         $('.newsletterForm').on('submit', function (evt) {
             evt.preventDefault();
@@ -34,8 +34,8 @@
                 url: action,
                 type: 'POST',
                 success: function (data) {
-                    if (data.success) {
-                        $container.html('<h2>Thank you!</h2>');
+                    if (data) {
+                        $container.html('<h3>' + data + '</h3>');
                     } else {
                         $container.html('There was a problem right here.');
                     }

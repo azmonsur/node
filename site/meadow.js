@@ -6,15 +6,33 @@ var express = require('express');
 var app = express();
 app.set('port', process.env.PORT || 3000);
 
-//import middleware for handling form body
-app.use(require('body-parser')());
-
 //middleware for handling file upload
 var formidable = require('formidable');
+
+//middleware for JQuery file upload
+var jqupload = require('jquery-file-upload-middleware');
 
 //import self defined module(s)
 var fortune = require('./lib/fortune.js');
 var weatherData = require('./lib/weather-data.js');
+var credentials = require('./lib/credentials.js');
+
+//import middleware for handling form body
+app.use(require('body-parser')());
+
+//import middleware for handling cookies
+app.use(require('cookie-parser')(credentials.cookieSecret));
+app.use(require('express-session')());
+/*res.cookie('monster', 'nom nom');
+res.cookie('signed_monster', 'nom nom', { signed: true });
+
+//retrive cookie
+var monster = req.cookies.monster;
+var signedMonster = req.signedCookies.monster;
+console.log(monster, signedMonster);*/
+
+//delete cookie
+//res.clearCookie('monster');
 
 //set up handlebars view engine - handles HTML, import handlebars
 var handlebars = require('express3-handlebars').create({
@@ -27,7 +45,7 @@ var handlebars = require('express3-handlebars').create({
         }
     }
 });
-app.engine('handlebars', handlebars.engine);
+app.engine('handlebars', handlebars.engine); ``
 app.set('view engine', 'handlebars');
 
 //set up static files directory
@@ -46,6 +64,15 @@ app.use(function (req, res, next) {
     next();
 });
 
+//flash message
+app.use(function (req, res, next) {
+    // if there's a flash message, transfer
+    // it to the context, then clear it
+    res.locals.flash = req.session.flash;
+    delete req.session.flash;
+    next();
+});
+
 /*-----------------------------Defining route----------------------- */
 
 //routes homepage, app.get()
@@ -53,7 +80,13 @@ app.get('/', function (req, res) {
     res.render('home');
 });
 
-//routes about page, app.get()
+//routes robots, app.get()
+app.get('/robots', function (req, res) {
+    res.type('text/plain');
+    res.render('partials/robots');
+});
+
+//routes about page, app.get()`
 app.get('/about', function (req, res) {
     res.render('about', {
         fortune: fortune.getFortune(),
@@ -86,17 +119,45 @@ app.get('/tours/request-group-rate', function (req, res) {
     res.render('tours/request-group-rate');
 });
 
-//routes vacation-photo page, app.get()
-app.get('/vacation-photo', function (req, res) {
-    res.render('vacation-photo');
-});
-
 //routes for newsletter
 //get method
 app.get('/newsletter', function (req, res) {
     // we will learn about CSRF later...for now, we just
     // provide a dummy value
     res.render('newsletter', { csrf: 'CSRF token goes here' });
+});
+
+//newsletter form handling
+app.post('/newsletter', function (req, res) {
+    var name = req.body.name || '', email = req.body.email || '';
+    // input validation
+    if (!email.match('[a-zA-Z]+@{1}gmail\.com')) {
+        if (req.xhr) return res.json({ error: 'Invalid name email address.' });
+        req.session.flash = {
+            type: 'danger',
+            intro: 'Validation error!',
+            message: 'The email address you entered was not valid.',
+        };
+        return res.redirect(303, '/newsletter/archive');
+    }
+    new NewsletterSignup({ name: name, email: email }).save(function (err) {
+        if (err) {
+            if (req.xhr) return res.json({ err: 'Database error.' });
+            req.session.flash = {
+                type: 'danger',
+                intro: 'Database error!',
+                message: 'There was a database error; please try again later.'
+            }
+            return res.redirect(303, '/newsletter/archive');
+        }
+        if (req.xhr) return res.json({ success: true });
+        req.session.flash = {
+            type: 'success',
+            intro: 'Thank you!',
+            message: 'You have now been signed up for the newsletter.',
+        };
+        return res.redirect(303, '/newsletter/archive');
+    });
 });
 
 
@@ -129,7 +190,7 @@ app.post('/process', function (req, res) {
 app.get('/contest/vacation-photo', function (req, res) {
     var now = new Date();
     res.render('contest/vacation-photo', {
-        year: now.getFullYear(), month: now.getMont()
+        year: now.getFullYear(), month: now.getMonth()
     });
 });
 
@@ -142,10 +203,27 @@ app.post('/contest/vacation-photo/:year/:month', function (req, res) {
         console.log(fields);
         console.log('received files:');
         console.log(files);
+        console.log(req.param.year);
+        console.log(req.params.month);
         res.redirect(303, '/thank-you');
     });
 });
 
+//j-query file upload
+app.use('/upload', function (req, res, next) {
+    var now = Date.now();
+    jqupload.fileHandler({
+        uploadDir: function () {
+            return __dirname + '/public/uploads/' + now;
+        },
+        uploadUrl: function () {
+            return '/uploads/' + now;
+        },
+    })(req, res, next);
+});
+
+
+//Error handling--------------------------------------------
 //custom 404 page, app.use()
 app.use(function (req, res) {
     res.status(404);

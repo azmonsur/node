@@ -1,12 +1,13 @@
 {
-  "name": "site",
+  "name": "Meadow Travels",
   "version": "1.0.0",
   "description": "",
   "main": "meadow.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node meadow",
+    "dev": "nodemon index"
   },
-  "author": "",
+  "author": "Azeez Kenny",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",

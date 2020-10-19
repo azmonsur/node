@@ -11,4 +11,16 @@
     b. create a .gitignore file and add files where you don want any change to effect
     c. enter <git add -A>
     d. commit changes by typing <git commit -m "Initial commit."
+
+
+=====CHANGING RUNNING ENVIRONMENT(windows)======
+
+$ set NODE_ENV=ENVIRONMENT_NAME[production || development]
+
+
+
+
++===========================================================
+1. That way lies madness
+============================================================
     

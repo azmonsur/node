@@ -1,11 +1,11 @@
 {
-  "name": "Meadow Travels",
+  "name": "meadow",
   "version": "1.0.0",
   "description": "",
   "main": "meadow.js",
   "scripts": {
     "start": "node meadow",
-    "dev": "nodemon index"
+    "dev": "nodemon meadow"
   },
   "author": "Azeez Kenny",
   "license": "ISC",
@@ -46,6 +46,8 @@
     "grunt-exec": "^3.0.0",
     "grunt-hashres": "^0.4.1",
     "grunt-lint-pattern": "^0.1.4",
+    "node": "^14.14.0",
+    "nodemon": "^2.0.5",
     "restler": "^3.4.0",
     "zombie": "^6.1.4"
   }

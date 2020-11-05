@@ -1,0 +1,117 @@
+@media (max-width: 401px) {
+    .login-container {
+        width: 100%;
+        margin-top: 20px;
+        text-align: center !important;
+    }
+
+    h3 {
+        font-size: 26px;
+    }
+}
+
+@media (min-width: 399px) {
+    #fixed-top {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 10000;
+    }
+    
+    #main {
+        margin-top: 90px;
+    }
+}
+
+
+
+p {
+    margin: 10px 0 !important;
+}
+
+.login-container {
+    width: 400px;
+    margin-top: 50px;
+    text-align: center !important;
+}
+
+.fa-small {
+    font-size: 16px !important;
+}
+
+.btn-float-left {
+    float: left !important;
+    -webkit-float: left !important;
+    -moz-float: left !important;
+    -o-float: left !important;
+    margin-right: 10px;
+    clear: none;
+}
+
+.img-very-small {
+    float: left;
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.width-20p {width: 20% !important; }
+.width-30p {width: 30% !important; }
+.width-40p {width: 40% !important; }
+.width-50p {width: 50% !important; }
+.width-60p {width: 60% !important; }
+.width-70p {width: 70% !important; }
+.width-80p {width: 80% !important; }
+.width-90p {width: 90% !important; }
+
+.rounded-4 { border-radius: 4px !important; }
+.rounded-8 { border-radius: 8px !important; }
+.rounded-12 { border-radius: 12px !important; }
+.rounded-16 { border-radius: 16px !important; }
+
+.bordered { border: 1px solid gray; }
+
+.bordered-bottom-grey { border-bottom: 2px solid gray; }
+
+.error {
+    content: '&copy';
+    display: block;
+    color: red;
+    opacity: .8;
+    font-weight: bold;
+}
+
+.success{
+    content: '&copy';
+    display: block;
+    color: green;
+    opacity: .8;
+    font-weight: bold;
+}
+
+.card-content span:nth-child(1) {
+    font-size: 2em;
+    padding: 15;
+    margin: 15;
+    font-weight: bold;
+}
+
+.card-content span:nth-child(2) {
+    font-size: 1.2em;
+    margin: 15px;
+    margin-top: -25px;
+    font-weight: bold;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.padding-2 { padding: 2px 4px; }
+.padding-4 { padding: 4px 8px; }
+.padding-6 { padding: 6px 12px; }
+.padding-8 { padding: 8px 16px; }
+.padding-10 { padding: 10px 18px; }
+
+
+
+

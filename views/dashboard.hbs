@@ -1,0 +1,99 @@
+<div class="section">
+    <h5>Dashboard</h5>
+</div>
+
+<div class="row">
+    <div class="col s12 m4 rounded-12">
+        <div class="card">
+            <div class="card-content">
+                <h4>Welcome {{name}}</h4>
+                <div class="divider"></div>
+                <p>Visitor</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="brown rounded-12 darken-1 col s12 m8">
+        <div class="card">
+            <div class="card-content">
+                <div class="section">
+                    <div class="row">
+                        <div class="card col s12 m4">
+                            <div class="card-content pink-text">
+                                <span>{{stories.length}}</span>
+                                <span></i>Threads</span>
+                            </div>
+                            <div class="divider"></div>
+                            <div class="card-content padding-2">
+                                <span>98</span>
+                                <span>Replies</span>
+                            </div>
+                        </div>
+
+                        <div class="col s12 m6 card">
+                            <div class="row">
+                                <div class="col s12 m6">
+                                    <div class="card-content green-text">
+                                        <span>{{publicStories.length}}</span>
+                                        <span>Published</span>
+                                    </div>
+                                </div>
+                                <div class="col s12 m6">
+                                    
+                                    <div style="display: none;" class="show-on-small divider"></div>
+                                    <div class="card-content teal-text">
+                                        <span>167</span>
+                                        <span>Likes</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divider"></div>
+                            <div class=" card-content deep-orange-text">
+                                <span>{{privateStories.length}}</span>
+                                <span>Unpublished</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <h4 class="padding-8 bordered-bottom-grey">Your Threads</h4>
+</div>
+{{#if stories}}
+<table class="striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each stories}}
+        <tr>
+            <td><a href="/stories/{{_id}}">{{title}}</a></td>
+            <td>{{formatDate createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
+            <td><span class="dash-status">{{status}}</span></td>
+            <td>
+                <a href="/stories/edit/{{_id}}" class="btn btn-float-left" title="Edit Thread"><i
+                        class="fas fa-edit"></i></a>
+                <form action="/stories/delete/{{_id}}" method="POST" id="delet-form">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button class="btn red" type="submit" title="Delete Thread"><i class="fas fa-trash"></i></button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+<p>You have not created any thread</p>
+{{/if}}
+<div class="chip right">
+    <img src="{{../user.image}}" alt="">
+    <a href="/stories/user/{{user._id}}">{{./user.firstName}}</a>
+</div>

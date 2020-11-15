@@ -17,9 +17,6 @@
 
 <body>
     {{> _header}}
-    {{#if user}}
-        {{> _add_btn}}
-    {{/if}}
     <div class="" id="man">
         {{{body}}}
     </div>
@@ -64,6 +61,8 @@
             .catch(err => {
                 console.error(err.stack);
             })
+        
+
 
     </script>
 </body>

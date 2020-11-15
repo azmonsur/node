@@ -1,3 +1,4 @@
+<% user = typeof user != 'undefined' ? user : ''%>
 <section class="section navbar">
     <div class="container center">
         <a href="#!" class="center">
@@ -13,18 +14,18 @@
             </a>
             <ul class="hide-on-small-only center nav-on-big">
                 <li><a href="/">news</a></li>
-                {{#if user}}
+                <% if (user) {%>
                     <li><a href="/dashboard">dashboard</a></li>
-                {{/if}}
+                <% } %>
                 <li><a href="/dashboard">media</a></li>
                 <li><a href="/dashboard">albums</a></li>
                 <li><a href="/dashboard">contact</a></li>
                 <li><a href="/dashboard">bio</a></li>
-                {{#if user}}
+                <% if (user) {%>
                     <li><a href="/auth/logout">logout</a></li>
-                {{else}}
+                <% } else {%>
                     <li><a href="/auth/login">login</a></li>
-                {{/if}}
+                <% } %>
             </ul>
             <ul style="disply: none;" class="sidenav show-on-small" id="mobile-demo">
                 <a href="#!" class="center">
@@ -32,20 +33,19 @@
                 </a>
                 <div class="divider"></div>
                 <li><a href="/">news</a></li>
-                {{#if user}}
+                <% if (user) {%>
                     <li><a href="/dashboard">dashboard</a></li>
-                {{/if}}
+                <% } %>
                 <li><a href="/dashboard">media</a></li>
                 <li><a href="/dashboard">albums</a></li>
                 <li><a href="/dashboard">contact</a></li>
                 <div class="divider"></div>
                 <li><a href="/dashboard">bio</a></li>
-                {{#if user}}
+                <% if (user) {%>
                     <li><a href="/auth/logout">logout</a></li>
-                {{else}}
+                <% } else {%>
                     <li><a href="/auth/login">login</a></li>
-                {{/if}}
-                <!--li><a href="/auth/logout">Logout</a></li-->
+                <% } %>
             </ul>
         </div>
     </div>

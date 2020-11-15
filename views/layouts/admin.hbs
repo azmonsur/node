@@ -9,33 +9,39 @@
     <link rel="stylesheet" href="/css/materialize.min.css">
     <link rel="stylesheet" href="/css/all.css">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
 
-    <script src = "/js/jquery-3.5.1.min.js"></script>
+    <script src="/js/jquery-3.5.1.min.js"></script>
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
-    
+    <style>
+        div.group {
+            display: grid;
+            grid-template-columns: 2fr 12fr 2fr;
+        }
+
+        div.group .tab-group {
+            text-align: center;
+            margin: 0 15px;
+        }
+
+        div.group .tab-group ul.left-tab {
+           
+        }
+
+        div.group .tab-group li {
+            border: solid grey 2px;
+            margin-bottom: 4px;
+        }
+    </style>
     <title>Kenny Oniyi's Blog - Login</title>
 </head>
 
 <body>
-    <div class="container login-container">
-        <div class="crd">
-            <div class="card-content">
-                {{{body}}}
-            </div>
-        </div>
-
+    <div class="">
+        {{{body}}}
     </div>
-
-    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script-->
-    <script src = "/js/materialize.min.js"></script>
-    <script>
-        const closeBtn = document.querySelector('.close')
-        closeBtn.addEventListener('click', e => {
-            closeBtn.parentElement.style.display = 'none';
-        })
-    </script>
 </body>
 
 </html>

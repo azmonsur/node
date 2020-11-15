@@ -16,12 +16,9 @@
 </head>
 
 <body>
-    {{> _header}}
-    {{#if user}}
-        {{> _add_btn}}
-    {{/if}}
+    <%= > _header %>
     <div class="" id="man">
-        {{{body}}}
+        <%= {body %>}
     </div>
 
 
@@ -64,6 +61,8 @@
             .catch(err => {
                 console.error(err.stack);
             })
+        
+
 
     </script>
 </body>

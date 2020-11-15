@@ -1,0 +1,122 @@
+<% user = typeof user != 'undefined' ? user : false %>
+<div class="container">
+    <div class="row">
+        <div class="col s12 m8">
+            <div class="center">
+                <h4><%= capitalize(story.title) %>
+                    <% if (user) {%>
+                    <small><%- editIcon(story.user, user, story._id, false) %></small>
+                    <% } %>
+                </h4>
+                <span>- <%= formatDate(story.createdAt, 'MMMM D, YYYY, h:mm:ss a') %> - </span>
+                <p class="summary"><%= story.summary %></p>
+            </div>
+            <div class="card story">
+                <div class="card-content">
+                    <%- story.body %>
+                </div>
+            </div>
+
+            <div class="section bordered">
+                <% if (user) {%>
+                <div class="padding-8">
+                    <div class="">
+                        <div class="section">
+                            <div class="padding-2 gray inline">
+                                <span class="likes"><%= story.likes.count %></span> Likes
+                            </div>
+                            <div class="padding-2 gray inline">
+                                <span class="replies"><%= comments.length %></span> Replies
+                            </div>
+                            <% if (story.likes.users.includes(user.email)) {%>
+                            <% thumb = 'down'%>
+                            <% } else { %>
+                            <% thumb = 'up' %>
+                            <% } %>
+                            <div class="scale-down-8 btn white gray-text capitalize" onclick="addLike(this);">
+                                <i class="fas fa-thumbs-<%= thumb %>"></i>
+                            </div>
+
+                            <div class="scale-down-8 btn white gray-text capitalize" onclick="
+                            showReplyField(this)">
+                                <i class="fas fa-reply"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="padding-8 reply-field">
+                    <div class="">
+                        <form class="inline" action="/stories/comments/<%= story._id %>" method="POST">
+                            <textarea name="content" id="content" cols="50" rows="50"></textarea><br />
+                            <button class="scale-down-8 btn white gray-text capitalize" onclick="">Send Reply</button>
+                        </form>
+                    </div>
+                </div>
+                <%} else {%>
+                <div class="padding-8">
+                    <a class="blue-text" href="/auth/login">Login</a> to add comment and like posts
+                </div>
+                <% }%>
+                <div class="divider-gray"></div>
+                <% comments.forEach(comment => { %>
+                <div class="section  padding-10">
+                    <% name = user.username == comment.user.username ? 'You' : comment.user.username %>
+                    <div class="all-replies">
+                        <img src="/images/donkenny.jpg" alt="" class="rounded-4">
+                        <span><%= capitalize(name)%></span>
+                        <small class="gray-text"><%= formatDate(comment.createdAt, 'MMMM D, YYYY, h:mm:ss a') %></small>
+                        <p><%= comment.content %></p>
+                    </div>
+                </div>
+                <%});%>
+            </div>
+        </div>
+
+        <div class="col s12 m4">
+            <div class="card center-align">
+                <div class="card-content">
+                    <span class="card-title"><%= story.user.username %></span>
+                    <% if (story.user.image) {%>
+                    <img src="<%= story.user.image %>" alt="" class="circle responsive-img img-small">
+                    <%  } %>
+                </div>
+                <div class="card-action">
+                    <a href="/stories/user/<%= story.user._id %>">More From <%= capitalize(story.user.username) %></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    'use-strict'
+    const showReplyField = (e) => {
+        e.parentElement.parentElement.parentElement.nextElementSibling.classList.toggle('show-reply-field')
+    }
+
+    const addLike = (e) => {
+        let likes = e.parentElement.childNodes[1].childNodes[1];
+        if (e.childNodes[1].className.includes('fa-thumbs-up')) {
+            e.childNodes[1].className = e.childNodes[1].className.replace('up', 'down');
+            updateLikes('/stories/likes/<%= story._id %>', 'PUT', 'INC')
+        } else {
+            e.childNodes[1].className = e.childNodes[1].className.replace('down', 'up');
+            updateLikes('/stories/likes/<%= story._id %>', 'PUT', 'DEC')
+        }
+    }
+
+    const updateLikes = (url, method, action) => {
+        $(document).ready(() => {
+            $.ajax({
+                url: url,
+                type: method,
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify({ action: action }),
+                success: (data) => {
+                    document.querySelector('.likes').innerHTML = data.likes
+                }
+            });
+        })
+    }
+</script>

@@ -1,0 +1,82 @@
+<div style="background: rgb(22, 22, 22) !important; color: #ffff;" class="section">
+    
+    <div class="container-local">
+        <% if (user.membership === 'superadmin') {%>
+        <h1><i class="fas fa-trash"></i> How ugly is ugly? - Welcome, <%= capitalize(user.username) %></h1>
+        <h6><a href="/dashboard" class="btn bold red white-text">Go Back To Dashboard</a></h6>
+        <div class="divider"></div>
+        <% } else { %>
+        <h1><i class="fas fa-trash"> You are not allowed to view this page</i> {{capitalize user.username}}</h1>
+        <div class="divider"></div>
+        <h6><a href="/dashboard" class="btn bold red white-text">Go Back To Dashboard</a></h6>
+        <% } %>
+
+        <div class="section">
+            <div class="row">
+                <div class="bordered col s6 m4">
+                    <div class="section">
+                        <span>Total Users: </span><br />
+                        <span>Total Contributors: </span><br />
+                        <span>Total Moderators: </span><br />
+                        <span>Total Admins: </span><br />
+                    </div>
+                </div>
+                <div class="bordered col s6 m4">
+                    <div class="section">
+                        <span>Total Stories: </span><br />
+                        <span>Total Public: </span><br />
+                        <span>Total Private: </span><br />
+                        <span>Total Views: </span><br />
+                        <span>Total Likes: </span><br />
+                        <span>Total Comments: </span><br />
+                    </div>
+                </div>
+                <div class="bordered col s12 m4">
+                    <div class="section">
+                        Extra
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% if (user.membership === 'superadmin') { %>
+        <div class="divider"></div>
+        <div class="group section">
+            <div class="tab-group tab-left">
+                <ul class="left-tab">
+                    <h5>About Users</h5>
+                    <li class="tab-content" id="tab-content-1">Admin Req</li>
+                    <li class="tab-content" id="tab-content-2">Contributor Req</li>
+                    <li class="tab-content" id="tab-content-3">Recently Joined</li>
+                    <li class="tab-content" id="tab-content-4">ADMIN</li>
+                    <li class="tab-content" id="tab-content-5">MODERATOR</li>
+                    <li class="tab-content" id="tab-content-6">CONTRIBUTOR</li>
+                    <li class="tab-content" id="tab-content-7">Most Article</li>
+                </ul>
+            </div>
+
+            <div class="tab-group tab-middle">
+                <div class="row">
+                    <div class="bordered col s12 m6">
+                        hey
+                    </div>
+                    <div class="bordered col s12 m6"></div>
+                </div>
+            </div>
+
+            <div class="tab-group tab-right">
+                <ul class="right-tab">
+                    <h5>About Articles</h5>
+                    <li class="tab-content" id="tab-content-21">All Stories</li>
+                    <li class="tab-content" id="tab-content-22">Public</li>
+                    <li class="tab-content" id="tab-content-23">Private</li>
+                    <li class="tab-content" id="tab-content-24">Most Category</li>
+                    <li class="tab-content" id="tab-content-25">MODERATOR</li>
+                    <li class="tab-content" id="tab-content-26">CONTRIBUTOR</li>
+                    <li class="tab-content" id="tab-content-27">Admin Req</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <% } %>
+</div>

@@ -1,7 +1,7 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 
-const User = mongoose.model('User', require('../models/User'));
+const User = require('../models/User');
 
 module.exports = function (passport) {
     passport.use(new GoogleStrategy({
@@ -15,7 +15,7 @@ module.exports = function (passport) {
                 displayName: profile.displayName,
                 firstName: profile.name.givenName,
                 lastName: profile.name.familyName,
-                image: profile.photos[0].value
+                image: profile.photos[0].value,
             }
 
             try {

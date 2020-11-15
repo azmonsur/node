@@ -9,9 +9,9 @@ const methodOverride = require('method-override');    // Override form submit me
 const passport = require('passport');                 // Middleman between server and any form of authentication
 const MongoStore = require('connect-mongo')(session); // To store session
 const exphbs = require('express-handlebars');         // Template engine
+const ejsLayout = require('express-ejs-layouts')
 const favicon = require('serve-favicon');             // For favicon 
-const passport_fb = require('passport-facebook');
-const nodemailer = require('nodemailer');
+const credentials = require('./config/credentials.js');
 
 
 // Self-defined MODULES
@@ -21,7 +21,8 @@ const connectDB = require('./config/db');             // @desc  Handles connecti
 dotenv.config({ path: './config/config.env' });
 
 // Passport config
-require('./config/passport_google_oauth')(passport);
+//require('./config/passport_google_oauth')(passport);
+require('./config/passport_local')(passport);
 
 // Connect to MongoDB server - Must have internet connection
 connectDB()
@@ -50,29 +51,20 @@ app.use(methodOverride(function (req, res) {
 
 // Logging      Use morgan in dev mode
 if (process.env.NODE_ENV == 'development') {
-    app.use(morgan('dev'));
+    //app.use(morgan('dev'));
 }
 
 // Handlebars Helpers
-const { formatDate, truncate, stripTags, editIcon, select } = require('./helpers/hbs')
+const { formatDate, capitalize, titleFormat, userDetails, compareAll, sumAll, truncateWithWords, truncateWithLetters, stripTags, editIcon, select, compare } = require('./helpers/hbs')
 
-// Handlebars
-app.engine('.hbs', exphbs({
-    helpers: {
-        formatDate,
-        stripTags, 
-        truncate,
-        editIcon,
-        select,
-    },
-    defaultLayout: 'main', 
-    extname: '.hbs' 
-}));
-app.set('view engine', '.hbs');
+// EJS
+app.use(ejsLayout)
+app.set('view engine', 'ejs');
 
 // Session - Express Session
+app.use(require('cookie-parser')(credentials.cookieSecret));
 app.use(session({
-    secret: 'keyboard',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
@@ -83,11 +75,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Set global variable
-app.use( function(req, res, next) {
-    res.locals.user = req.user  || null;
+app.use((req, res, next) => {
+    //res.locals.success_message = req.flash('success_message');
+    //res.locals.error_message = req.flash('error_message');
+    if (req.user) res.locals.user = JSON.parse(JSON.stringify(req.user)) || null;
     next();
-    console.log(res.locals.user)
 })
+
+// Use flash
+app.use(function (req, res, next) {
+    res.locals.flash = req.session.flash;
+    delete req.session.flash;
+    next();
+});
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')))
@@ -96,6 +96,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
 app.use('/stories', require('./routes/stories'));
+app.use('/admin', require('./routes/admin'));
 
 PORT = process.env.PORT || 3000
 

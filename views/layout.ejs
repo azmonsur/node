@@ -2,6 +2,15 @@
 <html lang="en">
 
 <head>
+    <!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-TR9DFPS');</script>
+        <!-- End Google Tag Manager -->
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -16,12 +25,12 @@
 </head>
 
 <body>
-    {{> _header}}
-    {{#if user}}
-        {{> _add_btn}}
-    {{/if}}
+    <%- include('./partials/_header') %>
+    <% if (user) { %>
+        <%- include('./partials/_add_btn') %>
+    <% } %>
     <div class="" id="man">
-        {{{body}}}
+        <%- body %>
     </div>
 
 
@@ -29,12 +38,13 @@
     <!--script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.15.0/ckeditor.js" integrity="sha512-bNMnTgKRxN1n+5rgfcf160HT2koHRcwLcSq/3JDOY9R65mja48E4Hh+a+IQXVaY2NoJCVC+pr0qE3Vz194QwnA==" crossorigin="anonymous"></script-->
     <script type="text/javascript" src="/js/materialize.min.js"></script>
     <script type="text/javascript" src="/js/ckeditor5/ckeditor.js"></script>
+    <script type="text/javascript" src="/js/jquery-3.5.1.min.js"></script>
     <script>
         const sidebar = document.querySelector('.sidenav');
         var instance = new M.Sidenav(sidebar);
         
         const newsCategories = [
-            'politics', 'entertainment', 'sport', 'relationship', 'crime', ' business',
+            'politics', 'entertainment', 'sport', 'relationship', 'crime', 'Ebusiness',
             'travel', 'education', 'computers', 'fashion', 'health', 'culture', 'religion',
             'diaries'
         ]

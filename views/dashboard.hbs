@@ -1,57 +1,188 @@
-<div class="section">
-    <h5>Dashboard</h5>
-</div>
-
-<div class="row">
-    <div class="col s12 m4 rounded-12">
-        <div class="card">
-            <div class="card-content">
-                <h4>Welcome {{name}}</h4>
-                <div class="divider"></div>
-                <p>Visitor</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="brown rounded-12 darken-1 col s12 m8">
-        <div class="card">
-            <div class="card-content">
-                <div class="section">
-                    <div class="row">
-                        <div class="card col s12 m4">
-                            <div class="card-content pink-text">
-                                <span>{{stories.length}}</span>
-                                <span></i>Threads</span>
-                            </div>
-                            <div class="divider"></div>
-                            <div class="card-content padding-2">
-                                <span>98</span>
-                                <span>Replies</span>
-                            </div>
+<div class="container container-local">
+    <div class="row">
+        <div class="col s12 m3">
+            <div class="cad card-local rounded-4">
+                <div class="padding-8">
+                    <div class="center bordered padding-8 profile">
+                        <div>
+                            <img src="/images/donkenny.jpg" alt="" class="rounded-4"><br />
+                            <a href="">
+                                {{capitalize user.username}}
+                            </a> (<a href=""><small>Edit Profile</small></a>)<br />
+                            {{#if membership.isSuperadmin}}
+                                <p><a class="black rounded-4 btn fa-x-medium" href="/admin/cpanel">Go to cPanel</a></p>
+                            {{/if}}
+                            {{#if membership.isAdmin}}
+                                <p><a class="black rounded-4 btn fa-x-medium" href="/admin/cpanel">Go to cPanel</a></p>
+                            {{/if}}
                         </div>
 
-                        <div class="col s12 m6 card">
-                            <div class="row">
-                                <div class="col s12 m6">
-                                    <div class="card-content green-text">
-                                        <span>{{publicStories.length}}</span>
-                                        <span>Published</span>
+                        <small class="small">{{user.membership}}</small>
+                    </div>
+                    <div class="section activities-tag">
+                        <div class="section center">
+                            <span class="gray-text bold white">{{stories.length}}</span>
+                            <span class="bold">{{compare 'gt' stories.length 1 'Articles' 'Article'}}</span>
+                        </div>
+
+                        <div class="section center">
+                            <span class="green-text bold white">{{publicStories.length}}</span>
+                            <span class="bold">Published</span>
+                        </div>
+
+                        <div class="section center">
+                            <span class="red-text bold white">{{privateStories.length}}</span>
+                            <span class="bold">Unpublished</span>
+                        </div>
+
+                        <div class="section center">
+                            <span class="gray-text bold white">{{sumAll stories 'likes'}}</span>
+                            <span class="bold">{{compare 'gt' (sumAll stories 'likes') 1 'Likes' 'Like'}}</span>
+                        </div>
+                    </div>
+                    <div class="sectio">
+                        <h6 class="most-read">Hit Articles</h6>
+                        <a href="/stories/{{_id}}">
+                            {titleFormat title}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m2">
+            <div class="section card-local rounded-4">
+                {{#if membership.isOrdinary}}
+                    <div class="padding-4 section center">
+                        Want to become a contributor? <br />
+                        <a class="btn darken-1 btn-block rounded-4 red bold-text" href="/user/apply/contributor">APPLY
+                            NOW</a>
+                        <p>
+                        </p>
+                    </div>
+                {{/if}}
+                {{#if stories}}
+                    <div class="padding-4">
+                        <h6>HITS</h6>
+                        <p style="padding-left: 5px;">
+                                {{#each stories}}
+                                <a class="bordered padding-1" href="/stories/{{_id}}"><small>{{titleFormat title}}</small></a><br />
+                            {{/each}}
+                        </p>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="col s12 m7">
+            <div class="cardcard-local rounded-4">
+                <div class="card-content">
+                    <div class="section top-tab">
+                        <h5 style="margn-top: -30px;">My Articles</h5>
+                        <ul class="inline">
+                            <li class="active tab-header" id="tab-header-1">All Articles ({{stories.length}})</li>
+                            <li class="tab-header" id="tab-header-2">Published ({{publicStories.length}})</li>
+                            <li class="tab-header" id="tab-header-3">Unpublished ({{privateStories.length}})</li>
+                        </ul>
+                    </div>
+                    <div class="sectin content">
+                        <div class="active content-header" id="content-header-1">
+                            {{#each stories}}
+                            <div class="card-local padding-4 rounded-4">
+                                <div class="margin-4 row padding-6">
+                                    <div class="col s8 m8">
+                                        <a href="/stories/{{_id}}">{{titleFormat title}}</a><br />
+                                        <small>{{formatDate createdAt 'Do MMMM, YYYY - hh:mm a'}}</small>&nbsp;
+                                        <a class="btn fa-x-small" href="/stories/edit/{{_id}}"><i
+                                                class="fas fa-edit"></i></a>
+                                        <form style="display: inline;" action="/stories/delete/{{_id}}" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button class="btn red fa-x-small" type="submit"><i
+                                                    class="fas fa-trash"></i></button>
+                                        </form>
                                     </div>
-                                </div>
-                                <div class="col s12 m6">
-                                    
-                                    <div style="display: none;" class="show-on-small divider"></div>
-                                    <div class="card-content teal-text">
-                                        <span>167</span>
-                                        <span>Likes</span>
+                                    <div class="col s1 m1"></div>
+                                    <div class="col s4 m3">
+                                        <span class="right paddin-2 rounded-4"><i
+                                                class="fas fa-eye">&nbsp;&nbsp;&nbsp;{{views}}</i></span><br />
+                                        <span
+                                            class="right white bold padding-2 rounded-4 {{compare 'eq' status 'public' 'green-text' 'red-text'}}">{{compare 'eq' status 'public' 'Published' 'Unpublished'}}</span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="divider"></div>
-                            <div class=" card-content deep-orange-text">
-                                <span>{{privateStories.length}}</span>
-                                <span>Unpublished</span>
+                            {{else}}
+                                <div class="card-local ">
+                                    <p class="padding-4 black-text white">
+                                        You have not written any article
+                                    </p>
+                                </div>
+                            {{/each}}
+                        </div>
+
+                        <div class="content-header" id="content-header-2">
+                            {{#each publicStories}}
+                            <div class="card-local padding-4 rounded-4">
+                                <div class="margin-4 row padding-6">
+                                    <div class="col s8 m8">
+                                        <a href="/stories/{{_id}}">{{titleFormat title}}</a><br />
+                                        <small>{{formatDate createdAt 'Do MMMM, YYYY - hh:mm a'}}</small>&nbsp;
+                                        <a class="btn fa-x-small" href="/stories/edit/{{_id}}"><i
+                                                class="fas fa-edit"></i></a>
+                                        <form style="display: inline;" action="/stories/delete/{{_id}}" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button class="btn red fa-x-small" type="submit"><i
+                                                    class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                    <div class="col s1 m1"></div>
+                                    <div class="col s4 m3">
+                                        <span class="right paddin-2 rounded-4"><i
+                                                class="fas fa-eye">&nbsp;&nbsp;&nbsp;{{views}}</i></span><br />
+                                        <span
+                                            class="right padding-2 rounded-4 {{compare 'eq' status 'public' 'green' 'red'}}">{{compare 'eq' status 'public' 'Published' 'Unpublished'}}</span>
+                                    </div>
+                                </div>
                             </div>
+                            {{else}}
+                                <div class="card-local ">
+                                    <p class="padding-4 black-text white">
+                                        You have no published article
+                                    </p>
+                                </div>
+                            {{/each}}
+                        </div>
+
+                        <div class="content-header" id="content-header-3">
+                            {{#each privateStories}}
+                            <div class="card-local padding-4 rounded-4">
+                                <div class="margin-4 row padding-6">
+                                    <div class="col s8 m8">
+                                        <a href="/stories/{{_id}}">{{titleFormat title}}</a><br />
+                                        <small>{{formatDate createdAt 'Do MMMM, YYYY - hh:mm a'}}</small>&nbsp;
+                                        <a class="btn fa-x-small" href="/stories/edit/{{_id}}"><i
+                                                class="fas fa-edit"></i></a>
+                                        <form style="display: inline;" action="/stories/delete/{{_id}}" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button class="btn red fa-x-small" type="submit"><i
+                                                    class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                    <div class="col s1 m1"></div>
+                                    <div class="col s4 m3">
+                                        <span class="right paddin-2 rounded-4"><i
+                                                class="fas fa-eye">&nbsp;&nbsp;&nbsp;{{views}}</i></span><br />
+                                        <span
+                                            class="right padding-2 rounded-4 {{compare 'eq' status 'public' 'green' 'red'}}">{{compare 'eq' status 'public' 'Published' 'Unpublished'}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {{else}}
+                                <div class="card-local ">
+                                    <p class="padding-4 black-text white">
+                                        You have no unpublished article
+                                    </p>
+                                </div>
+                            {{/each}}
                         </div>
                     </div>
                 </div>
@@ -59,41 +190,23 @@
         </div>
     </div>
 </div>
-<div class="section">
-    <h4 class="padding-8 bordered-bottom-grey">Your Threads</h4>
-</div>
-{{#if stories}}
-<table class="striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {{#each stories}}
-        <tr>
-            <td><a href="/stories/{{_id}}">{{title}}</a></td>
-            <td>{{formatDate createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
-            <td><span class="dash-status">{{status}}</span></td>
-            <td>
-                <a href="/stories/edit/{{_id}}" class="btn btn-float-left" title="Edit Thread"><i
-                        class="fas fa-edit"></i></a>
-                <form action="/stories/delete/{{_id}}" method="POST" id="delet-form">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button class="btn red" type="submit" title="Delete Thread"><i class="fas fa-trash"></i></button>
-                </form>
-            </td>
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-{{else}}
-<p>You have not created any thread</p>
-{{/if}}
-<div class="chip right">
-    <img src="{{../user.image}}" alt="">
-    <a href="/stories/user/{{user._id}}">{{./user.firstName}}</a>
-</div>
+
+<Script>
+    'use strict'
+    let tabHeaders = document.querySelectorAll('.tab-header'),
+        tabContents = document.querySelectorAll('.content-header');
+
+    tabHeaders.forEach(header => header.addEventListener('click', () => {
+        let contentId = header.id.replace('tab-header', 'content-header');
+        deactivateAll();
+        header.classList.add('active');
+        document.getElementById(contentId).classList.add('active')
+    }))
+
+    function deactivateAll() {
+        for (let i = 0; i < tabHeaders.length; i++) {
+            tabHeaders[i].className = tabHeaders[i].className.replace('active', '');
+            tabContents[i].className = tabContents[i].className.replace('active', '');
+        }
+    }
+</Script>

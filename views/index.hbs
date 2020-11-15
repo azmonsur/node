@@ -1,0 +1,74 @@
+<div class="section">
+    <div class="middle-layer row">
+        <div class="col s12 m2">
+            <div class="section">
+                <h5 class="most-read">Most Read</h5>
+                {{#each trending}}
+                    <a href="/stories/{{_id}}">
+                        <h6 class="headline-side">
+                            {{titleFormat title}}
+                        </h6>
+                    </a>
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="col s12 m7">
+            <div class="row">
+                {{#each stories}}
+                    <div class="col s12 m6">
+                        <div class="padding-8 section">
+                            <a href="/stories/{{_id}}">
+                                <h6 class="headline-main">{{titleFormat title}}</h6>
+                            </a>
+                            <p>{{truncateWithWords (stripTags summary) 15}}</p>
+                            <small>{{user.username}} - {{formatDate createdAt 'Do MMMM YYYY'}} - {{capitalize category}}</small>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+        <div class="col s12 m3">
+            <div class="section padding-8">
+                <h5 class="most-read">Featured</h5>
+                <div class="section">
+                    <h6>Polictics</h6>
+                    <a href="">
+                        <h6 class="headline-side">
+                            Hhere everyone firts most read news
+                        </h6>
+                    </a>
+                    <a href="">
+                        <h6 class="headline-side">
+                            Hhere everyone firts most read news
+                        </h6>
+                    </a>
+                    <a href="">
+                        <h6 class="headline-side">
+                            Hhere everyone firts most read news
+                        </h6>
+                    </a>
+                </div>
+
+                <div class="section">
+                    <h6>Crime</h6>
+                    <a href="">
+                        <h6 class="headline-side">
+                            Hhere everyone firts most read news
+                        </h6>
+                    </a>
+                    <a href="">
+                        <h6 class="headline-side">
+                            Hhere everyone firts most read news
+                        </h6>
+                    </a>
+                    <a href="">
+                        <h6 class="headline-side">
+                            Hhere everyone firts most read news
+                        </h6>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

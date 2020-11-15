@@ -5,10 +5,9 @@
     </p>
 </div>
 <div class="divider"></div>
-<div class="divider"></div>
 <div class="section">
     <form action="/auth/login" method="post">
-        {{> _messages}}
+        <%- include('./partials/_messages') %>
         <div class="section">
             <input type="text" id="username" name="username" class="width-70p" placeholder="Email or Username">
         </div>

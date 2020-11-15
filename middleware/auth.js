@@ -3,7 +3,11 @@ module.exports = {
         if (req.isAuthenticated()) {
             return next()
         } else {
-            res.redirect('/')
+            req.session.flash = {
+                type: 'warning',
+                message: 'Please log in to view this resource.',
+            }
+            res.redirect('/auth/login')
         }
     },
     ensureGuest: function (req, res, next) {

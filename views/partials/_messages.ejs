@@ -1,0 +1,17 @@
+<% errors = typeof errors != 'undefined' ? errors : ''%>
+<% flash = typeof flash != 'undefined' ? flash : ''%>
+<% if (errors) {%>
+    <% errors.forEach(error => { %>
+        <div class="alert alert-dismissible fade show alert-warning">
+            <%= error.message %>
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true" aria-label="Close">&times;</button>
+        </div>
+    <% }); %>
+<% }%>
+
+<% if (flash) {%>
+    <div class="alert alert-dismissible alert-<%= flash.type %>">
+        <%= flash.message %>
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    </div>
+<% } %>

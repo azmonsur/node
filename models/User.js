@@ -8,17 +8,14 @@ const UserSchema = new mongoose.Schema({
     },
     firstName: {
         type: String,
-        uppercase: true,
         trim: true
     },
     lastName: {
         type: String,
-        uppercase: true,
-        trim: true
+        trim: true,
     },
     middleName: {
         type: String,
-        uppercase: true,
         trim: true
     },
     

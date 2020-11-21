@@ -1,0 +1,56 @@
+<div class="container">
+    <h3>Edit Your Profile</h3>
+    <div class="row">
+        <form action="/user/edit-profile/<%= user._id %>" method="POST"  class="col s12 m8">
+            <input type="hidden" name="_method" value="PUT" />
+            <div class="row">
+                <div class="input-field">
+                    <input type="text" id="firstname" name="firstName" placeholder="Firstname" value="<%= typeof user.firstName != 'undefined' ? user.firstName : ''%>" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field">
+                    <input type="text" id="lastname" name="lastName" placeholder="Lastname" value="<%= typeof user.lastName != 'undefined' ? user.lastName : ''%>" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field">
+                    <input type="text" id="middlename" name="middleName" placeholder="Middlename" value="<%= typeof user.middleName != 'undefined' ? user.middleName : ''%>">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field">
+                    <select name="gender" id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                    <label for="gender">Gender</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field">
+                    <input type="text" id="introText" name="introText" placeholder="Intro Text" value="<%= typeof user.introText != 'undefined' ? user.introText : ''%>" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="input-field">
+                    <input type="file" id="image" name="image" />
+                </div>
+            </div>
+
+            <div class="row">
+                <input type="submit" value="Update" class="btn" />
+                <a href="/dashboard" class="btn orange">Cancel</a>
+            </div>
+        </form>
+    </div>
+ </div>
+
+ <script>
+     document.title = "Edit Your Profile";
+ </script>

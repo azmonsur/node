@@ -54,9 +54,6 @@ if (process.env.NODE_ENV == 'development') {
     //app.use(morgan('dev'));
 }
 
-// Handlebars Helpers
-const { formatDate, capitalize, titleFormat, userDetails, compareAll, sumAll, truncateWithWords, truncateWithLetters, stripTags, editIcon, select, compare } = require('./helpers/hbs')
-
 // EJS
 app.use(ejsLayout)
 app.set('view engine', 'ejs');
@@ -76,8 +73,6 @@ app.use(passport.session());
 
 // Set global variable
 app.use((req, res, next) => {
-    //res.locals.success_message = req.flash('success_message');
-    //res.locals.error_message = req.flash('error_message');
     if (req.user) res.locals.user = JSON.parse(JSON.stringify(req.user)) || null;
     next();
 })
@@ -97,6 +92,7 @@ app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
 app.use('/stories', require('./routes/stories'));
 app.use('/admin', require('./routes/admin'));
+app.use('/user', require('./routes/users'));
 
 PORT = process.env.PORT || 3000
 

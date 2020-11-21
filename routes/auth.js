@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const Joi = require('joi');
 const bycrypt = require('bcryptjs');
-const { ensureAuth } = require('../middleware/auth');
+const { ensureAuth, ensureGuest } = require('../middleware/auth');
 const router = express.Router();
 
 // User and Story models
@@ -11,13 +11,13 @@ const Story = require('../models/Story');
 
 // @desc    Local auth
 // @route    GET /auth/login
-router.get('/login', (req, res) => {
+router.get('/login', ensureGuest, (req, res) => {
     res.render('login', { layout: 'layouts/login' })
 })
 
 // @desc    Local signup
 // @route    GET /auth/register
-router.get('/register', (req, res) => {
+router.get('/register', ensureGuest, (req, res) => {
     res.render('register', { layout: 'layouts/login' })
 })
 
@@ -44,7 +44,7 @@ router.post('/register', async (req, res) => {
     // Create validation schema
     const validationSchema = {
         email: Joi.string().min(5).max(255).required(),
-        username: Joi.string().min(2).max(255).regex(/^[a-z_]+$/i).required(),
+        username: Joi.string().min(2).max(255).regex(/^[a-z_0-9]+$/i).required(),
         password: Joi.string().min(8).max(255).required(),
         verify_password: Joi.string().min(8).max(255).required(),
     }
@@ -60,7 +60,7 @@ router.post('/register', async (req, res) => {
         if (user) errors.push({ message: 'Username exists' });
 
         // If email exists
-        if (mail) errors.push({ message: 'Email exist exists' });
+        if (mail) errors.push({ message: 'Email exists' });
 
         if (password !== verify_password) {
             errors.push({ message: 'Passwords do not match' })

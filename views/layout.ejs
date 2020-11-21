@@ -3,14 +3,17 @@
 
 <head>
     <!-- Google Tag Manager -->
-	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-TR9DFPS');</script>
-        <!-- End Google Tag Manager -->
-        
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TR9DFPS');</script>
+    <!-- End Google Tag Manager -->
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -27,7 +30,7 @@
 <body>
     <%- include('./partials/_header') %>
     <% if (user) { %>
-        <%- include('./partials/_add_btn') %>
+    <%- include('./partials/_add_btn') %>
     <% } %>
     <div class="" id="man">
         <%- body %>
@@ -42,7 +45,7 @@
     <script>
         const sidebar = document.querySelector('.sidenav');
         var instance = new M.Sidenav(sidebar);
-        
+
         const newsCategories = [
             'politics', 'entertainment', 'sport', 'relationship', 'crime', 'Ebusiness',
             'travel', 'education', 'computers', 'fashion', 'health', 'culture', 'religion',
@@ -50,30 +53,39 @@
         ]
 
         let option;
-        newsCategories.forEach(category => {
-            console.log(category)
-            option = document.createElement('option');
-            option.setAttribute('value', category);
-            option.innerText = category.slice(0, 1).toUpperCase() + category.slice(1);
-            document.querySelector('#category').appendChild(option);  
-        });
+        let formCategory = document.querySelector('#category');
 
-        var formStatus = document.querySelector('#status');
-        instance = new M.FormSelect(formStatus);
+        if (formCategory) {
+            newsCategories.forEach(category => {
+                console.log(category)
+                option = document.createElement('option');
+                option.setAttribute('value', category);
+                option.innerText = category.slice(0, 1).toUpperCase() + category.slice(1);
+                formCategory.appendChild(option);
+            });
 
-        var formCategory = document.querySelector('#category');
-        instance = new M.FormSelect(formCategory);
+            instance = new M.FormSelect(formCategory);
+        }
 
-        ClassicEditor
-            .create(document.querySelector('#body'), {
-                //toolbar: ['heading', '|', 'bold', 'italic', 'link']
-            })
-            .then(editor => {
-                window.editor = editor;
-            })
-            .catch(err => {
-                console.error(err.stack);
-            })
+        let formStatus = document.querySelector('#status');
+        if (formStatus) instance = new M.FormSelect(formStatus);
+
+        let formGender = document.querySelector('#gender');
+        if (formGender) instance = new M.FormSelect(formGender);
+
+        let storyBody = document.querySelector('#body')
+        if (storyBody) {
+            ClassicEditor
+                .create(storyBody, {
+                    //toolbar: ['heading', '|', 'bold', 'italic', 'link']
+                })
+                .then(editor => {
+                    window.editor = editor;
+                })
+                .catch(err => {
+                    console.error(err.stack);
+                })
+        }
 
     </script>
 </body>

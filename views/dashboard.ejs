@@ -7,8 +7,13 @@
                         <div>
                             <img src="/images/donkenny.jpg" alt="" class="rounded-4"><br />
                             <a href="">
-                                <%= user.username.toUpperCase() %>
-                            </a> (<a href=""><small>Edit Profile</small></a>)<br />
+                                <% if (user.firstName && user.lastName) {%>
+                                    <%= title(user.firstName + ' ' + user.lastName ) %>
+                                    (<%= user.username %>)
+                                <% } else {%>
+                                    <%= user.username %>
+                                <% }%>
+                            </a> <br />(<a href="/user/edit-profile/<%= user._id %>"><small>Edit Profile</small></a>)<br />
                             <% if (user.membership === 'superadmin' || user.membership === 'admin') { %>
                             <p><a class="black rounded-4 btn fa-x-medium" href="/admin/cpanel">Go to cPanel</a></p>
                             <% } %>

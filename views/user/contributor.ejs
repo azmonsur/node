@@ -1,0 +1,33 @@
+<div class="container center">
+    <div class="section">
+        <form action="/auth/register" method="post">
+            <%- include('../partials/_messages') %>
+
+            <div class="section">
+                <input type="email" id="email" name="email" class="width-70p" placeholder="Email"
+                    value="<%= typeof email != 'undefined' ? email : ''%>">
+            </div>
+            <div class="section">
+                <input type="text" id="username" name="username" class="width-70p" placeholder="Display name"
+                    value="<%= typeof username != 'undefined' ? username : ''%>">
+            </div>
+            <div class="section">
+                <input type="password" id="password" class="width-70p" name="password" placeholder="Password">
+            </div>
+            <div class="section">
+                <input type="password" id="verify-password" class="width-70p" name="verify_password"
+                    placeholder="Verify Password">
+            </div>
+            <div class="section">
+                <button id="submit" type="submit"
+                    class="btn white-text rounded-4 width-70p btn-blck red darken-1">Register</button>
+            </div>
+        </form>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+        Have an Account?
+        <a href="/auth/login" class="">Login</a>
+    </div>
+
+</div>

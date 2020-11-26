@@ -3,12 +3,14 @@
         <div class="col s12 m2">
             <div class="section">
                 <h5 class="most-read">Most Read</h5>
+                <% trending = [...stories]%>
+                <% trending.sort((x, y) => (x.views < y.views) ? 1 : -1);%>
                 <% trending.forEach(story => { %>
-                    <a href="/stories/<%= story._id %>">
-                        <h6 class="headline-side">
-                            <%= title(story.title) %>
-                        </h6>
-                    </a>
+                <a href="/stories/<%= story._id %>">
+                    <h6 class="headline-side">
+                        <%= title(story.title) %>
+                    </h6>
+                </a>
                 <% }); %>
             </div>
         </div>
@@ -16,15 +18,19 @@
         <div class="col s12 m7">
             <div class="row">
                 <% stories.forEach(story => { %>
-                    <div class="col s12 m6">
-                        <div class="padding-8 section">
-                            <a href="/stories/<%= story._id %>">
-                                <h6 class="headline-main"><%= title(story.title) %></h6>
-                            </a>
-                            <p><%= truncateWithWords(stripTags(story.summary), 15) %></p>
-                            <small><%= story.user.username %> - <%= formatDate(story.createdAt, 'Do MMMM YYYY') %> - <%= capitalize(story.category) %></small>
-                        </div>
+                <div class="col s12 m6">
+                    <div class="padding-8 section">
+                        <a href="/stories/<%= story._id %>">
+                            <h6 class="headline-main"><%= title(story.title) %></h6>
+                        </a>
+                        <p><%= truncateWithWords(stripTags(story.summary), 20) %></p>
+                        <small>
+                            <a href="/dashboard/<%=story.user._id%>"><%= `${story.user.lastName} ${story.user.firstName}` %></a>
+                            | <%= capitalize(story.category) %>
+                            <br /><%= formatDate(story.publishedAt, 'Do MMMM YYYY, hh:mm a') %>
+                        </small>
                     </div>
+                </div>
                 <% }); %>
             </div>
         </div>

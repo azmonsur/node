@@ -29,7 +29,7 @@
 
 <body>
     <%- include('./partials/_header') %>
-    <% if (user) { %>
+    <% if (user && user.membership != 'ordinary') { %>
     <%- include('./partials/_add_btn') %>
     <% } %>
     <div class="" id="man">
@@ -46,24 +46,8 @@
         const sidebar = document.querySelector('.sidenav');
         var instance = new M.Sidenav(sidebar);
 
-        const newsCategories = [
-            'politics', 'entertainment', 'sport', 'relationship', 'crime', 'Ebusiness',
-            'travel', 'education', 'computers', 'fashion', 'health', 'culture', 'religion',
-            'diaries'
-        ]
-
-        let option;
         let formCategory = document.querySelector('#category');
-
         if (formCategory) {
-            newsCategories.forEach(category => {
-                console.log(category)
-                option = document.createElement('option');
-                option.setAttribute('value', category);
-                option.innerText = category.slice(0, 1).toUpperCase() + category.slice(1);
-                formCategory.appendChild(option);
-            });
-
             instance = new M.FormSelect(formCategory);
         }
 

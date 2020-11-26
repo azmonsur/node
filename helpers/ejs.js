@@ -30,4 +30,21 @@ module.exports = {
             return ""
         }
     },
+    formatFigure: function (figure) {
+        let figures = figure.toString();
+        let [index, count, formatted] = [figures.length - 1, 1, []]
+
+        for (const fig of figures) {
+            formatted.push(figures[index]);
+            if (count === 3 && index != 0) {
+                formatted.push(',')
+                count = 0
+            }
+            index--; count++;
+        }
+        return formatted.reverse().join('')
+    },
+    paginate: function (numberPerPage, totalNumber) {
+        return Math.ceil(totalNumber/numberPerPage)
+    }
 }

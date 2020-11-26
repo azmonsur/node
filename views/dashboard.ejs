@@ -5,18 +5,35 @@
                 <div class="padding-8">
                     <div class="center bordered padding-8 profile">
                         <div>
-                            <img src="/images/donkenny.jpg" alt="" class="rounded-4"><br />
-                            <a href="">
-                                <% if (user.firstName && user.lastName) {%>
-                                    <%= title(user.firstName + ' ' + user.lastName ) %>
-                                    (<%= user.username %>)
-                                <% } else {%>
-                                    <%= user.username %>
-                                <% }%>
-                            </a> <br />(<a href="/user/edit-profile/<%= user._id %>"><small>Edit Profile</small></a>)<br />
-                            <% if (user.membership === 'superadmin' || user.membership === 'admin') { %>
-                            <p><a class="black rounded-4 btn fa-x-medium" href="/admin/cpanel">Go to cPanel</a></p>
+                            <% publics = stories.filter(story => story.status == 'public' && story.archivePost == 'false');%>
+
+                            <% privates = stories.filter(story => story.status == 'private' && story.archivePost == 'false');%>
+
+                            <% if (user.image) {%>
+                            <% fileSrc = `/images/uploads/users/${user.image}` %>
+                            <% } else {%>
+                            <% if (user.gender == 'male') {%>
+                            <% fileSrc = `/images/donkenny.jpg` %>
+                            <% } else {%>
+                            <% fileSrc = `/images/donkenny.jpg` %>
                             <% } %>
+                            <% } %>
+                            <img src="<%= fileSrc %>" alt="<%= fileSrc %>" width="80" height="80"
+                                class="rounded-4"><br />
+                            <% if (stories[0].user.firstName && stories[0].user.lastName) {%>
+                            <%= title(stories[0].user.firstName + ' ' + stories[0].user.lastName ) %>
+                            (<%= stories[0].user.username %>)
+                            <% } else {%>
+                            <%= stories[0].username %>
+                            <% }%>
+                            <% if (user._id == stories[0].user._id) {%>
+                            <br />(<a href="/user/edit-profile/<%= user._id %>"><small>Edit
+                                    Profile</small></a>)
+                            <% }%>
+                            <% if (user._id == stories[0].user._id) {%>
+                            <br /><% if (user.membership === 'superadmin' || user.membership === 'admin') { %>
+                            <p><a class="black rounded-4 btn fa-x-medium" href="/admin/cpanel">Go to cPanel</a></p>
+                            <% } }%>
                         </div>
 
                         <small class="small"><%= user.membership %></small>
@@ -34,12 +51,12 @@
                         </div>
 
                         <div class="section center">
-                            <span class="green-text bold white"><%= publicStories.length %></span>
+                            <span class="green-text bold white"><%= publics.length %></span>
                             <span class="bold">Published</span>
                         </div>
 
                         <div class="section center">
-                            <span class="red-text bold white"><%= privateStories.length %></span>
+                            <span class="red-text bold white"><%= privates.length %></span>
                             <span class="bold">Unpublished</span>
                         </div>
 
@@ -47,7 +64,7 @@
                             <span class="gray-text bold white">
                                 <% let total = 0 %>
                                 <% stories.forEach(story => { %>
-                                <% total += 3 %>
+                                <% total += story.likes.count %>
                                 <% }); %>
                                 <%= total %>
                             </span>
@@ -72,6 +89,7 @@
 
         <div class="col s12 m2">
             <div class="section card-local rounded-4">
+                <% if (user._id == stories[0].user._id) {%>
                 <% if (user.membership === 'ordinary') { %>
                 <div class="padding-4 section center">
                     Want to become a contributor? <br />
@@ -80,8 +98,8 @@
                     <p>
                     </p>
                 </div>
-                <% } %>
-                <% if (stories) { %>
+                <% } }%>
+                <% if (stories.length > 0) { %>
                 <div class="padding-4">
                     <h6>HITS</h6>
                     <p style="padding-left: 5px;">
@@ -99,15 +117,26 @@
             <div class="cardcard-local rounded-4">
                 <div class="card-content">
                     <div class="section top-tab">
-                        <h5 style="margn-top: -30px;">My Articles</h5>
+                        <% let ownerArticle = user._id == stories[0].user._id ? 'My Articles' : `${stories[0].user.lastName}'s Articles`%>
+                        <h5 style="margn-top: -30px;"><%=ownerArticle%></h5>
                         <ul class="inline">
-                            <li class="active tab-header" id="tab-header-1">All Articles (<%= stories.length %>)</li>
-                            <li class="tab-header" id="tab-header-2">Published (<%= publicStories.length %>)</li>
-                            <li class="tab-header" id="tab-header-3">Unpublished (<%= privateStories.length %>)</li>
+                            <% let hide, active;%>
+                            <% if (user._id == stories[0].user._id) {%>
+                            <% hide = ''; active = ''%>
+                            <%} else {%>
+                            <% hide = 'hide-btn'; active = 'active'%>
+                            <%}%>
+                            <li class="active <%=hide%> tab-header" id="tab-header-1">All Articles
+                            (<%= stories.length %>)</li>
+                            <li class="<%=active%> tab-header" id="tab-header-2">Published (<%= publics.length %>)</li>
+                            <li class="<%= hide%> tab-header" id="tab-header-3">Unpublished (<%= privates.length %>)
+                            </li>
                         </ul>
                     </div>
+
                     <div class="sectin content">
-                        <div class="active content-header" id="content-header-1">
+                        <div class="active <%= hide%> content-header" id="content-header-1">
+                            <% if (stories.length > 0) {%>
                             <% stories.forEach(story => {%>
                             <div class="card-local padding-4 rounded-4">
                                 <div class="margin-4 row padding-6">
@@ -126,7 +155,7 @@
                                     <div class="col s1 m1"></div>
                                     <div class="col s4 m3">
                                         <span class="right paddin-2 rounded-4"><i
-                                                class="fas fa-eye">&nbsp;&nbsp;&nbsp;<%= story.views %></i></span><br />
+                                                class="fas fa-eye">&nbsp;&nbsp;&nbsp;<%= formatFigure(story.views) %></i></span><br />
                                         <% let color; let text %>
                                         <% if (story.status === 'public') { %>
                                         <% color = 'green' %>
@@ -141,10 +170,63 @@
                                 </div>
                             </div>
                             <% }); %>
+                            <% } else {%>
+                            <div class="card-local">
+                                <p class="padding-4 black-text white">
+                                    You have not written any articles
+                                </p>
+                            </div>
+                            <%}%>
                         </div>
 
-                        <div class="content-header" id="content-header-2">
-                            <% publicStories.forEach(story => {%>
+                        <div class="<%=active%> content-header" id="content-header-2">
+                            <% if (publics.length > 0) {%>
+                            <% publics.forEach(story => {%>
+                            <div class="card-local padding-4 rounded-4">
+                                <div class="margin-4 row padding-6">
+                                    <div class="col s8 m8">
+                                        <a href="/stories/<%= story._id %>"><%= title(story.title) %></a><br />
+                                        <small><%= formatDate(story.createdAt, 'D MMMM, YYYY - hh:mm a') %></small>&nbsp;
+                                        <% if (user._id == stories[0].user._id) {%>
+                                        <a class="btn fa-x-small" href="/stories/edit/<%= story._id %>"><i
+                                                class="fas fa-edit"></i></a>
+                                        <form style="display: inline;" action="/stories/delete/<%= story._id %>"
+                                            method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button class="btn red fa-x-small" type="submit"><i
+                                                    class="fas fa-trash"></i></button>
+                                        </form>
+                                        <%}%>
+                                    </div>
+                                    <div class="col s1 m1"></div>
+                                    <div class="col s4 m3">
+                                        <span class="right paddin-2 rounded-4"><i
+                                                class="fas fa-eye">&nbsp;&nbsp;&nbsp;<%= formatFigure(story.views) %></i></span><br />
+                                        <% let color; let text %>
+                                        <% if (story.status === 'public') { %>
+                                        <% color = 'green' %>
+                                        <% text = 'Published' %>
+                                        <% } else { %>
+                                        <% color = 'red' %>
+                                        <% text = 'Unpublished' %>
+                                        <% }%>
+                                        <span class="right bold padding-2 rounded-4 <%= color %>"><%= text %></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                            <% } else {%>
+                            <div class="card-local">
+                                <p class="padding-4 black-text white">
+                                    You have no published articles
+                                </p>
+                            </div>
+                            <%}%>
+                        </div>
+
+                        <div class="<%= hide%> content-header" id="content-header-3">
+                            <% if (privates.length > 0) {%>
+                            <% privates.forEach(story => {%>
                             <div class="card-local padding-4 rounded-4">
                                 <div class="margin-4 row padding-6">
                                     <div class="col s8 m8">
@@ -162,7 +244,7 @@
                                     <div class="col s1 m1"></div>
                                     <div class="col s4 m3">
                                         <span class="right paddin-2 rounded-4"><i
-                                                class="fas fa-eye">&nbsp;&nbsp;&nbsp;<%= story.views %></i></span><br />
+                                                class="fas fa-eye">&nbsp;&nbsp;&nbsp;<%= formatFigure(story.views) %></i></span><br />
                                         <% let color; let text %>
                                         <% if (story.status === 'public') { %>
                                         <% color = 'green' %>
@@ -176,42 +258,15 @@
                                 </div>
                             </div>
                             <% }); %>
-                        </div>
-
-                        <div class="content-header" id="content-header-3">
-                            <% privateStories.forEach(story => {%>
-                            <div class="card-local padding-4 rounded-4">
-                                <div class="margin-4 row padding-6">
-                                    <div class="col s8 m8">
-                                        <a href="/stories/<%= story._id %>"><%= title(story.title) %></a><br />
-                                        <small><%= formatDate(story.createdAt, 'D MMMM, YYYY - hh:mm a') %></small>&nbsp;
-                                        <a class="btn fa-x-small" href="/stories/edit/<%= story._id %>"><i
-                                                class="fas fa-edit"></i></a>
-                                        <form style="display: inline;" action="/stories/delete/<%= story._id %>"
-                                            method="POST">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <button class="btn red fa-x-small" type="submit"><i
-                                                    class="fas fa-trash"></i></button>
-                                        </form>
-                                    </div>
-                                    <div class="col s1 m1"></div>
-                                    <div class="col s4 m3">
-                                        <span class="right paddin-2 rounded-4"><i
-                                                class="fas fa-eye">&nbsp;&nbsp;&nbsp;<%= story.views %></i></span><br />
-                                        <% let color; let text %>
-                                        <% if (story.status === 'public') { %>
-                                        <% color = 'green' %>
-                                        <% text = 'Published' %>
-                                        <% } else { %>
-                                        <% color = 'red' %>
-                                        <% text = 'Unpublished' %>
-                                        <% }%>
-                                        <span class="right bold padding-2 rounded-4 <%= color %>"><%= text %></span>
-                                    </div>
-                                </div>
+                            <% } else {%>
+                            <div class="card-local">
+                                <p class="padding-4 black-text white">
+                                    You have no unpublished articles
+                                </p>
                             </div>
-                            <% }); %>
+                            <%}%>
                         </div>
+                        
                     </div>
                 </div>
             </div>

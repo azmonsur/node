@@ -3,12 +3,12 @@
     <div class="row">
         <div class="col s12 m8">
             <div class="center">
-                <h4><%= capitalize(story.title) %>
+                <h4><%= title(story.title) %> 
                     <% if (user) {%>
                     <small><%- editIcon(story.user, user, story._id, false) %></small>
                     <% } %>
                 </h4>
-                <span>- <%= formatDate(story.createdAt, 'MMMM D, YYYY, h:mm:ss a') %> - </span>
+                <small>- <%= capitalize(story.category) %> | <%= formatDate(story.createdAt, 'MMMM D, YYYY, h:mm:ss a') %> | <%= title(`${story.user.lastName} ${story.user.firstName}`) %> - </small>
                 <p class="summary"><%= story.summary %></p>
             </div>
             <div class="card story">
@@ -62,7 +62,16 @@
                 <div class="section  padding-10">
                     <% name = user.username == comment.user.username ? 'You' : comment.user.username %>
                     <div class="all-replies">
-                        <img src="/images/donkenny.jpg" alt="" class="rounded-4">
+                        <% if (comment.user.image) {%>
+                            <% fileSrc = `/images/uploads/users/${comment.user.image}` %>
+                        <% } else {%>
+                            <% if (user.gender == 'male') {%>
+                                <% fileSrc = `/images/donkenny.jpg` %>
+                            <% } else {%>
+                                <% fileSrc = `/images/donkenny.jpg` %>
+                            <% } %>
+                        <% } %>
+                        <img src="<%= fileSrc %>" alt="<%= fileSrc %>" class="rounded-4">
                         <span><%= capitalize(name)%></span>
                         <small class="gray-text"><%= formatDate(comment.createdAt, 'MMMM D, YYYY, h:mm:ss a') %></small>
                         <p><%= comment.content %></p>

@@ -223,7 +223,7 @@ h5.latest {
     font-weight: bold;
     padding: 5px;
     padding-left: 10px ;
-    border-left: black solid 3px;
+    border-bottom: gray dotted .5px;
     border-radius: 5%;
 }
 
@@ -299,7 +299,19 @@ h5.latest {
 }
 
 .tab-header {
-    transition: all 1s;
+    transition: all .5s;
+}
+
+.left-tab-header,
+.right-tab-header  {
+    transition: all .5s;
+    cursor: pointer;
+}
+
+.left-tab-header:hover,
+.right-tab-header:hover  {
+    background: gray;
+    color: white;
 }
 
 .tab-header.active {
@@ -307,13 +319,33 @@ h5.latest {
     font-weight: bold;
 }
 
+.left-tab-header.active,
+.right-tab-header.active {
+    background: #fff;
+    color: gray;
+    font-weight: bold;
+}
+
 .content-header {
+    position: relative;
+    display: none;
+    transition: all .5s;
+}
+
+.content-header.active {
+    display: block;
+}
+
+.left-tab-content,
+.right-tab-content {
     position: relative;
     display: none;
     transition: all 1s;
 }
 
-.content-header.active {
+
+.left-tab-content.active,
+.right-tab-content.active {
     display: block;
 }
 
@@ -374,4 +406,29 @@ h5.latest {
     transform: scale(.8);
 }
 
+.add-btn {
+    background: #fff;
+    color: rgb(66, 66, 66) !important;
+}
+
+.ck-body {
+    background:  rgb(66, 66, 66);
+}
+
+ol.cpanel {
+    list-style: none !important;
+    padding: 0;
+}
+
+ol.cpanel li.article-title {
+    border: none!important;
+    margin: 5px;
+    padding: 3px 6px;
+    background: gray;
+    color: #fff;
+}
+
+.hide-btn {
+    display: none !important;
+}
 

@@ -1,22 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const { ensureAuth, ensureGuest } = require('../middleware/auth');
-const { capitalize, formatDate, truncateWithWords, stripTags, title } = require('../helpers/ejs')
+const { capitalize, formatDate, truncateWithWords, stripTags, title, formatFigure, paginate } = require('../helpers/ejs')
 
 // Story model
 const Story = require('../models/Story');
+
+// Story model
+const User = require('../models/User');
 
 // @desc    Login/Landing page
 // @desc    GET /
 router.get('/', async (req, res) => {
 
     try {
-        let stories = await Story.find({ frontPagePost: 'true', status: 'public' }).populate('user').sort({ createdAt: 'desc' }).lean()
-        const trending = await Story.find({ frontPagePost: 'true', status: 'public' }).populate('user').sort({ views: 'desc' }).limit(10).lean()
+        let stories = await Story.find({ frontPagePost: 'true', status: 'public', archivePost: 'false' }).populate('user').sort({ publishedAt: -1 }).lean(); 
 
         res.render('index', {
             stories,
-            trending,
             capitalize,
             truncateWithWords,
             stripTags,
@@ -31,26 +32,22 @@ router.get('/', async (req, res) => {
 
 // @desc    Dashboard
 // @desc    GET /dashboard
-router.get('/dashboard', ensureAuth, async (req, res) => {
+router.get('/dashboard/:id', ensureAuth, async (req, res) => {
+    let page = req.query.page 
+    if (!page) {
+        page = 1
+    }
+    console.log(page, req.params.id)
     try {
         // Get all stories
-        const stories = await Story.find({ user: req.user.id }).sort({ createdAt: -1 }).lean();
-
-        // Get all public stories
-        const publicStories = await Story.find({ user: req.user.id, status: 'public' }).sort({ createdAt: -1 }).lean();
-
-        // Get all private stories
-        const privateStories = await Story.find({ user: req.user.id, status: 'private' }).sort({ createdAt: -1 }).lean();
+        const stories = await Story.find({ user: req.params.id, archivePost: 'false' }).sort({ createdAt: -1 }).populate('user').lean();
 
         res.render('dashboard', {
-            name: req.user.firstName,
-            username: req.user.username,
             stories,
-            image: req.user.image,
-            publicStories,
-            privateStories,
             formatDate,
-            title
+            title,
+            formatFigure,
+            paginate
         });
     } catch (error) {
         console.error(error)

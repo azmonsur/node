@@ -23,7 +23,14 @@
             <div class="row">
                 <div class="input-field">
                     <select name="category" id="category">
-                        
+                        <% let categories = [
+                        'politics', 'entertainment', 'sport', 'relationship', 'crime', 'business',
+                        'travel', 'education', 'computers', 'fashion', 'health', 'culture', 'religion',
+                        'diaries'
+                    ] %>
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category %>"><%= capitalize(category) %></option>
+                        <%});%>
                     </select>
                     <label for="category">Category</label>
                 </div>
@@ -38,8 +45,8 @@
 
             <div class="row">
                 <div class="input-field">
-                    <h5>What's New?</h5>
-                    <textarea name="body" id="body" rows="5"></textarea>
+                    <h5>Write New Article?</h5>
+                    <textarea class="ck-body" name="body" id="body" rows="5"></textarea>
                 </div>
             </div>
 

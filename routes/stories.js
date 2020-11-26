@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { ensureAuth } = require('../middleware/auth');
-const { capitalize, editIcon, formatDate } = require('../helpers/ejs');
+const { capitalize, editIcon, formatDate, title } = require('../helpers/ejs');
 
 // Story model
 const Story = require('../models/Story');
@@ -12,7 +12,9 @@ const Comment = require('../models/Comment');
 // @desc    Show add page
 // @route    GET /stories/add
 router.get('/add', ensureAuth, (req, res) => {
-    res.render('stories/add');
+    res.render('stories/add', {
+        capitalize
+    });
 });
 
 // @desc    Process the add form
@@ -75,7 +77,8 @@ router.get('/:id', async (req, res) => {
             comments,
             editIcon,
             capitalize,
-            formatDate
+            formatDate,
+            title
         })
     } catch (error) {
         console.error(error);
@@ -96,6 +99,7 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
         } else {
             res.render('stories/edit', {
                 story,
+                capitalize
             })
         }
     } catch (error) {

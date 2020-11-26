@@ -46,6 +46,11 @@ const StorySchema = new mongoose.Schema({
         default: 'false',
         enum: ['false', 'true']
     },
+    archivePost: {
+        type: String,
+        default: 'false',
+        enum: ['false', 'true']
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

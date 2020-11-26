@@ -1,0 +1,80 @@
+<div class="section">
+    <div class="middle-layer row">
+        <div class="col s12 m2">
+            <div class="section">
+                <h5 class="most-read">Most Read</h5>
+                <% trending = [...stories]%>
+                <% trending.sort((x, y) => (x.views < y.views) ? 1 : -1);%>
+                <% trending.forEach(story => { %>
+                <a href="/stories/<%= story._id %>">
+                    <h6 class="headline-side">
+                        <%= title(story.title) %>
+                    </h6>
+                </a>
+                <% }); %>
+            </div>
+        </div>
+
+        <div class="col s12 m7">
+            <div class="row">
+                <% stories.forEach(story => { %>
+                <div class="col s12 m6">
+                    <div class="padding-8 section">
+                        <a href="/stories/<%= story._id %>">
+                            <h6 class="headline-main"><%= title(story.title) %></h6>
+                        </a>
+                        <p><%= truncateWithWords(stripTags(story.summary), 20) %></p>
+                        <small>
+                            <a href="/dashboard/<%=story.user._id%>"><%= `${story.user.lastName} ${story.user.firstName}` %></a>
+                            | <%= capitalize(story.category) %>
+                            <br /><%= formatDate(story.publishedAt, 'Do MMMM YYYY, hh:mm a') %>
+                        </small>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+        </div>
+        <div class="col s12 m3">
+            <div class="section padding-8">
+                <h5 class="most-read">Featured</h5>
+                <div class="section">
+                    <h6>Polictics</h6>
+                    <a href="">
+                        <h6 class="headline-side">
+                            Hhere everyone firts most read news
+                        </h6>
+                    </a>
+                    <a href="">
+                        <h6 class="headline-side">
+                            Hhere everyone firts most read news
+                        </h6>
+                    </a>
+                    <a href="">
+                        <h6 class="headline-side">
+                            Hhere everyone firts most read news
+                        </h6>
+                    </a>
+                </div>
+
+                <div class="section">
+                    <h6>Crime</h6>
+                    <a href="">
+                        <h6 class="headline-side">
+                            Hhere everyone firts most read news
+                        </h6>
+                    </a>
+                    <a href="">
+                        <h6 class="headline-side">
+                            Hhere everyone firts most read news
+                        </h6>
+                    </a>
+                    <a href="">
+                        <h6 class="headline-side">
+                            Hhere everyone firts most read news
+                        </h6>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

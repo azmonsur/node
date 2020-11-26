@@ -1,0 +1,36 @@
+<a style="color: #fff;" href="/"><h3><i class="fas fa-book-reader"></i> xtrim</h3></a>
+<div class="section">
+    <p class="lead">
+        Login to your Account.
+    </p>
+</div>
+<div class="divider"></div>
+<div class="section">
+    <form action="/auth/login" method="post">
+        <%- include('./partials/_messages') %>
+        <div class="section">
+            <input type="text" id="username" name="username" class="width-70p" placeholder="Email or Username">
+        </div>
+        <div class="section">
+            <input type="password" id="password" class="width-70p" name="password" placeholder="Password">
+        </div>
+        <a href="#" class="lead red-text darken-1"><small>Forget password?</small></a>
+        <div class="section">
+            <button id="submit" type="submit" class="btn white-text rounded-4 width-70p btn-blck green darken-1">Login</button>
+        </div>
+    </form>
+</div>
+<div class="divider"></div>
+<div class="section">
+    Don't Have an Acount? 
+    <a href="/auth/register" class="">Create New Account</a>
+</div>
+
+
+<script>
+    'use strict';
+    let statusMsg = document.querySelector('#status-message');
+    document.querySelector('#submit').addEventListener('click', e => {
+        //e.preventDefault()
+    })
+</script>

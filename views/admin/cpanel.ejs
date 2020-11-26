@@ -1,0 +1,157 @@
+<div style="background: rgb(22, 22, 22) !important; color: #ffff;" class="section">
+    <p style="display: none;" id="stories"></p>
+    <div class="container-local">
+        <% if (user.membership === 'superadmin') {%>
+        <h1><i class="fas fa-trash"></i> How ugly is ugly? - Welcome, <%= capitalize(user.username) %></h1>
+        <h6><a href="/dashboard" class="btn bold red white-text">Go Back To Dashboard</a></h6>
+        <div class="divider"></div>
+        <% } else { %>
+        <h1><i class="fas fa-trash"> You are not allowed to view this page</i> {{capitalize user.username}}</h1>
+        <div class="divider"></div>
+        <h6><a href="/dashboard" class="btn bold red white-text">Go Back To Dashboard</a></h6>
+        <% } %>
+
+        <div class="section">
+            <div class="row">
+                <div class="bordered col s6 m4">
+                    <div class="section">
+
+                        <% contributors = users.filter(user => user.membership == 'contributor');%>
+                        <% moderators = users.filter(user => user.membership == 'moderator');%>
+                        <% admins = users.filter(user => user.membership == 'admin');%>
+                        <% ordinaries = users.filter(user => user.membership == 'ordinary');%>
+                        <% superadmins = users.filter(user => user.membership == 'superadmin');%>
+
+                        <span>Total Users: <%= formatFigure(users.length)%></span><br />
+                        <span>Total SuperAdmins: <%= formatFigure(superadmins.length)%></span><br />
+                        <span>Total Admins: <%= formatFigure(admins.length)%></span><br />
+                        <span>Total Moderators: <%= formatFigure(moderators.length)%></span><br />
+                        <span>Total Contributors: <%= formatFigure(contributors.length)%></span><br />
+                        <span>Total Regulars: <%= formatFigure(ordinaries.length)%></span><br />
+                    </div>
+                </div>
+                <div class="bordered col s6 m4">
+                    <div class="section">
+
+
+                        <% publics = stories.filter(story => story.status == 'public');%>
+                        <% privates = stories.filter(story => story.status == 'private');%>
+                        <% archives = stories.filter(story => story.archivePost == 'true');%>
+                        <% totalViews = 0; stories.forEach(story => totalViews += parseInt(story.views))%>
+                        <% totalLikes = 0; stories.forEach(story => totalLikes += parseInt(story.likes.count))%>
+
+                        <span>Total Stories: <%= formatFigure(stories.length)%></span><br />
+                        <span>Total Public: <%= formatFigure(publics.length)%></span><br />
+                        <span>Total Private: <%= formatFigure(privates.length)%></span><br />
+                        <span>Total Archived: <%= formatFigure(archives.length)%></span><br />
+                        <span>Total Views: <%= formatFigure(totalViews)%></span><br />
+                        <span>Total Likes: <%= formatFigure(totalLikes)%></span><br />
+                        <span>Total Comments: <%= formatFigure(comments.length)%></span><br />
+                    </div>
+                </div>
+                <div class="bordered col s12 m4">
+                    <div class="section">
+                        Extra
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% if (user.membership === 'superadmin') { %>
+        <div class="divider"></div>
+        <div class="group section">
+            <div class="tab-group tab-left">
+                <ul class="left-tab">
+                    <h5>About Users</h5>
+                    <li class="active left-tab-header" id="left-tab-header-1">Moderator Req</li>
+                    <li class="left-tab-header" id="left-tab-header-2">Contributor Req</li>
+                    <li class="left-tab-header" id="left-tab-header-3">Recently Joined</li>
+                    <li class="left-tab-header" id="left-tab-header-4">ADMIN</li>
+                    <li class="left-tab-header" id="left-tab-header-5">MODERATOR</li>
+                    <li class="left-tab-header" id="left-tab-header-6">CONTRIBUTOR</li>
+                    <li class="left-tab-header" id="left-tab-header-7">Most Article</li>
+                </ul>
+            </div>
+
+            <div class="tab-group tab-middle">
+                <div class="row">
+                    <div class="bordered col s12 m6">
+                        <div class="active left-align left-tab-content section" id="left-tab-content-1">
+                            moderator req
+                        </div>
+
+                        <div class="left-align left-tab-content section" id="left-tab-content-2">
+                            contributor req
+                        </div>
+
+                        <div class="left-align left-tab-content section" id="left-tab-content-3">
+                            recently joined
+                        </div>
+
+                        <div class="left-align left-tab-content section" id="left-tab-content-4">
+                            admins
+                        </div>
+
+                        <div class="left-align left-tab-content section" id="left-tab-content-5">
+                            moderator
+                        </div>
+
+                        <div class="left-align left-tab-content section" id="left-tab-content-6">
+                            Contributors
+                        </div>
+
+                        <div class="left-align left-tab-content section" id="left-tab-content-7">
+                            most articles
+                        </div>
+                    </div>
+
+                    <div class="bordered col s12 m6">
+                        <div class="active left-align right-tab-content section" id="right-tab-content-1">
+                            all articles
+                        </div>
+
+                        <div class="left-align right-tab-content section" id="right-tab-content-2">
+                            <ol class="cpanel" id="fpa"></ol>
+                        </div>
+
+                        <div class="left-align right-tab-content section" id="right-tab-content-3">
+                            <ol class="cpanel" id="fpa"></ol>
+                        </div>
+
+                        <div class="left-align right-tab-content section" id="right-tab-content-4">
+                            <ol class="cpanel" id="fpa"></ol>
+                        </div>
+
+                        <div class="left-align right-tab-content section" id="right-tab-content-5">
+                            mode right
+                        </div>
+
+                        <div class="left-align right-tab-content section" id="right-tab-content-6">
+                            cont. right
+                        </div>
+
+                        <div class="left-align right-tab-content section" id="right-tab-content-7">
+                            admin req
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-group tab-right">
+                <ul class="right-tab">
+                    <h5>About Articles</h5>
+                    <li class="active right-tab-header" id="right-tab-header-1">All Stories</li>
+                    <li onclick="getStories(`/admin/cpanel/push/${null}`, 'PUT', 'pull');" class="right-tab-header"
+                        id="right-tab-header-2">FPAs</li>
+                    <li onclick="getStories(`/admin/cpanel/push/${null}`, 'PUT', 'push');" class="right-tab-header"
+                        id="right-tab-header-3">Public</li>
+                    <li onclick="getStories(`/admin/cpanel/push/${null}`, 'PUT', 'private');" class="right-tab-header" id="right-tab-header-4">Private</li>
+                    <li class="right-tab-header" id="right-tab-header-5">Most Category</li>
+                    <li class="right-tab-header" id="right-tab-header-6">CONTRIBUTOR</li>
+                    <li class="right-tab-header" id="right-tab-header-7">Admin Req</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <% } %>
+</div>

@@ -1,0 +1,52 @@
+<% user = typeof user != 'undefined' ? user : ''%>
+<section class="section navbar">
+    <div class="container center">
+        <a href="#!" class="center">
+            <div class="padding-20 landing-top-layer site-logo">
+                &nbsp;XTRIM<br />
+                <!--small>&nbsp;newsroom</small-->
+            </div>
+        </a>
+
+        <div class="nav-on-big">
+            <a style="display: none;" href="#" data-target="mobile-demo" class="sidenav-trigger show-on-small">
+                <i class="fas fa-bars"></i>
+            </a>
+            <ul class="hide-on-small-only center nav-on-big">
+                <li><a href="/">news</a></li>
+                <% if (user) {%>
+                    <li><a href="/dashboard/<%=user._id%>">dashboard</a></li>
+                <% } %>
+                <li><a href="/dashboard">media</a></li>
+                <li><a href="/dashboard">albums</a></li>
+                <li><a href="/dashboard">contact</a></li>
+                <li><a href="/dashboard">bio</a></li>
+                <% if (user) {%>
+                    <li><a href="/auth/logout">logout</a></li>
+                <% } else {%>
+                    <li><a href="/auth/login">login</a></li>
+                <% } %>
+            </ul>
+            <ul style="disply: none;" class="sidenav show-on-small" id="mobile-demo">
+                <a href="#!" class="center">
+                    <div class="landing-top-layer site-logo">&nbsp;XTRIM</div>
+                </a>
+                <div class="divider"></div>
+                <li><a href="/">news</a></li>
+                <% if (user) {%>
+                    <li><a href="/dashboard/<%=user._id%>">dashboard</a></li>
+                <% } %>
+                <li><a href="/dashboard">media</a></li>
+                <li><a href="/dashboard">albums</a></li>
+                <li><a href="/dashboard">contact</a></li>
+                <div class="divider"></div>
+                <li><a href="/dashboard">bio</a></li>
+                <% if (user) {%>
+                    <li><a href="/auth/logout">logout</a></li>
+                <% } else {%>
+                    <li><a href="/auth/login">login</a></li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</section>
